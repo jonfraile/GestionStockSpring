@@ -13,5 +13,8 @@
 <p>Datos cliente <a href="info">click</a></p>
 <p>  IP: ${requestIp}. </p>
 <p>  UserAgent: ${requestUa}. </p>
+
+<p><a href="inventario">Inventario</a></p>
+<p><a href="personas">Personas</a></p>
 </body>
 </html>
