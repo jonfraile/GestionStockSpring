@@ -3,6 +3,7 @@ package com.ipartek.formacion.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class SimpleProductManagerTests {
 
 	private static String TABLE_DESCRIPTION = "Table";
 	private static Double TABLE_PRICE = new Double(150.10);
+
+	private static int POSITIVE_PRICE_INCREASE = 10;
+	private static int NEGATIVE_PRICE_INCREASE = -1;
+	private static int OVER_PRICE_INCREASE = 51;
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,4 +72,48 @@ public class SimpleProductManagerTests {
 		assertEquals(TABLE_PRICE, product.getPrice());
 	}
 
+	@Test
+	public void testIncreasePriceWithNullListOfProducts() {
+		try {
+			this.productManager = new SimpleProductManager();
+			this.productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+		} catch (final NullPointerException ex) {
+			fail("Products list is null.");
+		}
+	}
+
+	@Test
+	public void testIncreasePriceWithEmptyListOfProducts() {
+		try {
+			this.productManager = new SimpleProductManager();
+			this.productManager.setProducts(new ArrayList<Product>());
+			this.productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+		} catch (final Exception ex) {
+			fail("Products list is empty.");
+		}
+	}
+
+	@Test
+	public void testIncreasePriceWithPositivePercentage() {
+		this.productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+		final double expectedChairPriceWithIncrease = 22.55;
+		final double expectedTablePriceWithIncrease = 165.11;
+
+		final List<Product> products = this.productManager.getProducts();
+		Product product = products.get(0);
+		assertEquals(expectedChairPriceWithIncrease, product.getPrice(), 0);
+
+		product = products.get(1);
+		assertEquals(expectedTablePriceWithIncrease, product.getPrice(), 0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testIncreasePriceWithIllegalArgumentNegative() {
+		this.productManager.increasePrice(NEGATIVE_PRICE_INCREASE);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testIncreasePriceWithIllegalArgumentOver() {
+		this.productManager.increasePrice(OVER_PRICE_INCREASE);
+	}
 }

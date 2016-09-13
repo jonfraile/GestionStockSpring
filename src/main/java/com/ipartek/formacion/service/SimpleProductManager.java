@@ -10,9 +10,24 @@ public class SimpleProductManager implements ProductManager {
 
 	private List<Product> products;
 
+	/**
+	 * 
+	 */
 	@Override
-	public void increasePrice(int percentage) {
-		throw new UnsupportedOperationException();
+	public void increasePrice(int percentage) throws IllegalArgumentException {
+
+		if (percentage < INCREASE_MIN || percentage > INCREASE_MAX) {
+			throw new IllegalArgumentException(MSG_ILLEGALARGUMENT_EXCEPTION);
+
+		} else {
+			if (this.products != null) {
+				for (final Product product : this.products) {
+					final double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
+					product.setPrice(newPrice);
+				}
+			}
+		}
+
 	}
 
 	@Override
