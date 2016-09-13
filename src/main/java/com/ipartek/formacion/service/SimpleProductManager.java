@@ -22,8 +22,10 @@ public class SimpleProductManager implements ProductManager {
 		} else {
 			if (this.products != null) {
 				for (final Product product : this.products) {
-					final double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
-					product.setPrice(newPrice);
+					if (product != null) {
+						final double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
+						product.setPrice(newPrice);
+					}
 				}
 			}
 		}
