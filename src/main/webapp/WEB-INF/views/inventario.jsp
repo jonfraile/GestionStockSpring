@@ -1,14 +1,14 @@
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <html>
 <head>
-	<title><fmt:message key="title"/></title>
+	<title><fmt:message key="inventario.title"/></title>
 </head>
 <body>
-	<h1><fmt:message key="heading"/></h1>
+	<h1><fmt:message key="inventario.heading"/></h1>
     
-    <p><fmt:message key="greeting"/> <c:out value="${fecha}"/></p>
+    <p><fmt:message key="inventario.greeting"/> <c:out value="${fecha}"/></p>
     
-    <h3>Products</h3>
+    <h3><fmt:message key="inventario.encabezado"/></h3>
     
     <c:forEach items="${products}" var="prod">
       <c:out value="${prod.description}"/> 

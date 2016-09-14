@@ -6,7 +6,7 @@
 <body>
 	
     
-    <h3>Personas</h3>
+    <h3><fmt:message key="personas.encabezado"/></h3>
     
     <c:forEach items="${persons}" var="persona">
       <c:out value="${persona.nombre}"/> 

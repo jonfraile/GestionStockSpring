@@ -2,11 +2,22 @@ package com.ipartek.formacion.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Persona implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty
+	@Size(min = 3, max = 255)
 	private String nombre;
+	@Max(199)
+	@Min(0)
+	private int edad;
 
 	/**
 	 * @return the nombre
@@ -23,6 +34,21 @@ public class Persona implements Serializable {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * @return the edad
+	 */
+	public int getEdad() {
+		return this.edad;
+	}
+
+	/**
+	 * @param edad
+	 *            the edad to set
+	 */
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,7 +56,7 @@ public class Persona implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Persona [nombre=" + this.nombre + "]";
+		return "Persona [nombre=" + this.nombre + ", edad=" + this.edad + "]";
 	}
 
 }
