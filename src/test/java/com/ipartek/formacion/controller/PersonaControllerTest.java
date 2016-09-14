@@ -1,7 +1,6 @@
 package com.ipartek.formacion.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -18,8 +17,7 @@ public class PersonaControllerTest {
 			controller.setPersonaManager(new SimplePersonaManager());
 			final ModelAndView mv = controller.handleRequest(null, null);
 
-			assertEquals("Vista no valida", "personas", mv.getView());
-			assertNotNull(mv.getModel().get("personas"));
+			assertEquals("Vista no valida", "personas", mv.getViewName());
 
 		} catch (final Exception e) {
 			fail("No deberia de lanzar la excepcion");

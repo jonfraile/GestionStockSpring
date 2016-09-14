@@ -19,7 +19,7 @@ public class InventoryControllerTest {
 			controller.setProductManager(new SimpleProductManager());
 			final ModelAndView mv = controller.handleRequest(null, null);
 
-			assertEquals("Vista no valida", "inventario", mv.getView());
+			assertEquals("Vista no valida", "inventario", mv.getViewName());
 			assertNotNull(mv.getModel().get("fecha"));
 
 		} catch (final Exception e) {
