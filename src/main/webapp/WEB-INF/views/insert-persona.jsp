@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1><fmt:message key="insert.encabezado"/></h1>
-<form:form method="post" commandName="persona">
+<form:form method="post" commandName="persona" >
   <table >
     <tr>
       <td align="right" width="20%"><fmt:message key="insert.nombre"/>:</td>
@@ -31,7 +31,7 @@
     </tr>
   </table>
   <br>
-  <input type="submit" value="Crear">
+  <input type="submit" value="<fmt:message key="insert.crear"/>">
 </form:form>
 <a href="<c:url value="/"/>"><fmt:message key="insert.retorno"/></a>
 </body>

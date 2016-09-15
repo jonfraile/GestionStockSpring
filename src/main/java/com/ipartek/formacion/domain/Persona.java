@@ -4,15 +4,14 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Persona implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty
+	@NotNull
 	@Size(min = 3, max = 255)
 	private String nombre;
 	@Max(199)

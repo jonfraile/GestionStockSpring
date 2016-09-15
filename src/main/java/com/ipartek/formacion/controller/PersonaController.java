@@ -45,7 +45,7 @@ public class PersonaController {
 		this.personaManager = personaManager;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "insert-persona", method = RequestMethod.POST)
 	public String onSubmit(@Valid Persona persona, BindingResult result) {
 		// Si hay errores volver a pagina priceincrease.jsp
 		if (result.hasErrors()) {

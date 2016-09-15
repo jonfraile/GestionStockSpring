@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <html>
 <head>
-	<title><fmt:message key="title"/></title>
+	<title><fmt:message key="personas.title"/></title>
 </head>
 <body>
 	

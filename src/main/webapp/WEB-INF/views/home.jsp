@@ -1,9 +1,16 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <html>
 <head>
+	
+   
+   
 	<title><fmt:message key="home.title"/></title>
 </head>
 <body>
+
+
+
 <h1>
 	<fmt:message key="home.h1"/> 
 </h1>
@@ -18,5 +25,7 @@
 <p><a href="personas"><fmt:message key="home.persona"/></a></p>
 <p><a href="<c:url value="incremento-precio"/>"><fmt:message key="home.incrementarPrecio"/></a></p>
 <p><a href="<c:url value="insert-persona"/>"><fmt:message key="home.insertarPersona"/></a></p>
+<script src="<c:url value="/resources/external/jquery/jquery.js" />"></script>
+ <script src="<c:url value="/resources/jquery-ui.min.js" />"></script>
 </body>
 </html>
