@@ -13,10 +13,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ipartek.formacion.domain.Product;
 import com.ipartek.formacion.service.ProductManager;
 
 @Controller
@@ -49,6 +54,22 @@ public class InventoryController {
 		model.put("fecha", new Date().toString());
 
 		return new ModelAndView("inventario", model);
+
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String saveProduct(@ModelAttribute("producto") @Validated Product producto, BindingResult bindingResult,
+			Model model) {
+		String destino = "";
+
+		if (bindingResult.hasErrors()) {
+			this.logger.info("Producto con errores");
+			destino = "inventario";
+		} else {
+			this.logger.info("Producto correcto");
+			destino = "inventario";
+		}
+		return destino;
 	}
 
 }

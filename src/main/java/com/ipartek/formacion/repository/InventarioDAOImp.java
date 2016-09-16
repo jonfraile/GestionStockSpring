@@ -21,8 +21,9 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbctemplate;
-	@SuppressWarnings("unused")
 	private SimpleJdbcCall jdbcCall;
 
 	private static final Logger logger = LoggerFactory.getLogger(InventarioDAOImp.class);
