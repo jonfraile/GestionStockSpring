@@ -16,7 +16,7 @@ import com.ipartek.formacion.form.PriceIncreaseForm;
 import com.ipartek.formacion.service.ProductManager;
 
 @Controller
-@RequestMapping(value = "/incremento-precio.html")
+@RequestMapping(value = "/product/incremento-precio.html")
 public class PriceIncreaseFormController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -36,7 +36,7 @@ public class PriceIncreaseFormController {
 	public String onSubmit(@Valid PriceIncreaseForm priceIncreaseForm, BindingResult result) {
 		// Si hay errores volver pagina priceincrease.jsp
 		if (result.hasErrors()) {
-			return "incremento-precio";
+			return "product/incremento-precio";
 		}
 
 		final int increase = priceIncreaseForm.getPorcentaje();
@@ -50,10 +50,10 @@ public class PriceIncreaseFormController {
 	@RequestMapping(method = RequestMethod.GET)
 	protected String populateForm(Model model) throws ServletException {
 		this.logger.debug("Rellenando formulario antes de mostrar");
-		PriceIncreaseForm priceIncrease = new PriceIncreaseForm();
+		final PriceIncreaseForm priceIncrease = new PriceIncreaseForm();
 		priceIncrease.setPorcentaje(15);
 		model.addAttribute("priceIncreaseForm", priceIncrease);
-		return "incremento-precio";
+		return "product/incremento-precio";
 	}
 
 }
