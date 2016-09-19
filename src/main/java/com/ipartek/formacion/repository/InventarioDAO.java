@@ -11,4 +11,12 @@ public interface InventarioDAO extends Serializable, DAOSetter {
 
 	List<Product> getProducts();
 
+	Product getById(long id);
+
+	boolean eliminar(long id);
+
+	boolean insertar(Product p);
+
+	boolean modificar(Product p);
+
 }

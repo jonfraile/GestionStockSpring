@@ -13,6 +13,7 @@ public class SimpleProductManager implements ProductManager {
 
 	private static final long serialVersionUID = 1L;
 
+	Product p = null;
 	@Autowired
 	private InventarioDAO inventarioDAOImp;
 
@@ -41,6 +42,28 @@ public class SimpleProductManager implements ProductManager {
 	public List<Product> getProducts() {
 		this.products = this.inventarioDAOImp.getProducts();
 		return this.products;
+	}
+
+	@Override
+	public Product getById(long id) {
+		return this.inventarioDAOImp.getById(id);
+	}
+
+	@Override
+	public boolean eliminar(long id) {
+		return this.inventarioDAOImp.eliminar(id);
+
+	}
+
+	@Override
+	public boolean insertar(Product p) {
+		return this.inventarioDAOImp.insertar(p);
+	}
+
+	@Override
+	public boolean modificar(Product p) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
