@@ -22,19 +22,22 @@ public class SimpleProductManager implements ProductManager {
 	@Override
 	public void increasePrice(int percentage) throws IllegalArgumentException {
 
-		if (percentage < INCREASE_MIN || percentage > INCREASE_MAX) {
-			throw new IllegalArgumentException(MSG_ILLEGALARGUMENT_EXCEPTION);
+		// if (percentage < INCREASE_MIN || percentage > INCREASE_MAX) {
+		// throw new IllegalArgumentException(MSG_ILLEGALARGUMENT_EXCEPTION);
 
-		} else {
-			if (this.products != null) {
-				for (final Product product : this.products) {
-					if (product != null) {
-						final double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
-						product.setPrice(newPrice);
-					}
-				}
-			}
-		}
+		// } else {
+		// if (this.products != null) {
+		// for (final Product product : this.products) {
+		// if (product != null) {
+		// final double newPrice = product.getPrice().doubleValue() *
+		// (100 + percentage) / 100;
+		// product.setPrice(newPrice);
+
+		// }
+		// }
+		this.inventarioDAOImp.increasePrice(percentage);
+		// }
+		// }
 
 	}
 
@@ -62,8 +65,7 @@ public class SimpleProductManager implements ProductManager {
 
 	@Override
 	public boolean modificar(Product p) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.inventarioDAOImp.modificar(p);
 	}
 
 }

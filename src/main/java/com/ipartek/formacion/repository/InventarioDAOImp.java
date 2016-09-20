@@ -3,6 +3,7 @@ package com.ipartek.formacion.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	@Override
 	public void increasePrice(int percentage) {
-		// TODO callableStatement
+		final String sql = "{ incrementar_precio(?) }";
+		this.jdbctemplate.update(sql, new Object[] { percentage });
 
 	}
 
@@ -98,14 +100,14 @@ public class InventarioDAOImp implements InventarioDAO {
 		affectedRows = this.jdbctemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				final PreparedStatement ps = conn.prepareStatement(SQL);
+				final PreparedStatement ps = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, p.getDescription());
 				ps.setDouble(2, p.getPrice());
 				return ps;
 			}
 		}, keyHolder);
 
-		// p.setId(keyHolder.getKey().longValue());
+		p.setId(keyHolder.getKey().longValue());
 
 		if (affectedRows != 0) {
 			resul = true;
@@ -116,8 +118,16 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	@Override
 	public boolean modificar(Product p) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean resul = false;
+		int affectedRows = 0;
+		final String SQL = "UPDATE products SET nombre = ? , price= ? WHERE codCurso = ?";
+		affectedRows = this.jdbctemplate.update(SQL, new Object[] { p.getDescription(), p.getPrice(), p.getId() });
+		if (affectedRows != 0) {
+			resul = true;
+		}
+
+		return resul;
+
 	}
 
 	@Autowired

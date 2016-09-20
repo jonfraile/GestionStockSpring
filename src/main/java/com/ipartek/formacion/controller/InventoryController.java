@@ -105,7 +105,7 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/inventario/eliminar/{id}", method = RequestMethod.GET)
-	public void eliminar(@PathVariable(value = "id") final long id) {
+	public String eliminar(@PathVariable(value = "id") final long id) {
 
 		this.logger.trace("Eliminado" + id);
 
@@ -122,8 +122,7 @@ public class InventoryController {
 
 		model.put("msg", msg);
 
-		listarInventario();
-
+		return "redirect:/product/inventario";
 	}
 
 }

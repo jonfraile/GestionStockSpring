@@ -35,7 +35,7 @@ public class PersonaController {
 		this.personaManager = personaManager;
 	}
 
-	@RequestMapping(value = "/persona")
+	@RequestMapping(value = "/persona/persona")
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -43,7 +43,7 @@ public class PersonaController {
 		final Map<String, Object> model = new HashMap<String, Object>();
 		model.put("personas", lista);
 
-		return new ModelAndView("persona", model);
+		return new ModelAndView("persona/persona", model);
 
 	}
 
@@ -54,23 +54,23 @@ public class PersonaController {
 	 *            atributos
 	 * @return String de la vista 'insert-persona.jsp'
 	 */
-	@RequestMapping(value = "/insertar-persona.html", method = RequestMethod.GET)
+	@RequestMapping(value = "/persona/insertar-persona.html", method = RequestMethod.GET)
 	public String preView(Model model) {
 		this.logger.trace("Antes de cargar insert-persona.jsp");
 
-		Persona p = new Persona();
+		final Persona p = new Persona();
 		p.setEdad(18);
 		model.addAttribute("persona", p);
 
-		return "insert-persona";
+		return "persona/insert-persona";
 	}
 
-	@RequestMapping(value = "/insertar-persona.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/persona/insertar-persona.html", method = RequestMethod.POST)
 	public String insert(@Valid Persona persona, BindingResult bindingResult) {
 		this.logger.trace("Insertando persona " + persona);
 
 		if (bindingResult.hasErrors()) {
-			return "insert-persona";
+			return "persona/insert-persona";
 		} else {
 			this.logger.info("Insertado " + persona);
 			return "home";

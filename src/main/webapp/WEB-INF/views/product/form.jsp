@@ -1,20 +1,10 @@
-<%@ include file="/WEB-INF/views/include.jsp" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<html>
-<head>
-  <title>Nuevo producto</title>
-  <style>
-    .error { color: red; }
-  </style>  
-</head>
-<body>
-<h1>Crear producto</h1>
+<%@ include file="../includes/header.jsp" %>
 
 <form:form action="nuevo" method="post" commandName="product">
 	
 	<label for="id">Id</label>
-	<form:input path="id"/>
+	<form:input path="id" disabled="true"/>
+	<form:input path="id" hidden="true"/>
 	<form:errors path="id" cssClass="error"/>
 	<br>
 	<label for="description">Description</label>
@@ -29,8 +19,6 @@
 <input type="submit" value="Crear">
 </form:form>
 
-<a href="../product/inventario">Atras</a>
+<a href="product/inventario">Atras</a>
 
-
-</body>
-</html>
+<%@ include file="../includes/footer.jsp" %>
