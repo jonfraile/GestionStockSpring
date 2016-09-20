@@ -1,6 +1,6 @@
 <%@ include file="../includes/header.jsp" %>
 
-<form:form action="nuevo" method="post" commandName="product">
+<form:form action="iventario/nuevo" method="post" commandName="product">
 	
 	<label for="id">Id</label>
 	<form:input path="id" disabled="true"/>

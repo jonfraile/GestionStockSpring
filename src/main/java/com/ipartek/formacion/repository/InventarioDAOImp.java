@@ -131,7 +131,7 @@ public class InventarioDAOImp implements InventarioDAO {
 	public boolean modificar(Product p) {
 		boolean resul = false;
 		int affectedRows = 0;
-		final String SQL = "UPDATE products SET nombre = ? , price= ? WHERE codCurso = ?";
+		final String SQL = "UPDATE products SET description = ? , price= ? WHERE id = ?";
 		affectedRows = this.jdbctemplate.update(SQL, new Object[] { p.getDescription(), p.getPrice(), p.getId() });
 		if (affectedRows != 0) {
 			resul = true;

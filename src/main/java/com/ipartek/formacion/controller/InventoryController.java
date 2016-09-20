@@ -31,7 +31,7 @@ public class InventoryController {
 
 	/**
 	 * Mostrar listado de todos los productos del inventario
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return ModelAndView "inventario.jsp", model:{ArrayList &lt;Product&gt;
@@ -55,7 +55,7 @@ public class InventoryController {
 
 	/**
 	 * Muestra formulario para crear nuevo producto
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -77,17 +77,22 @@ public class InventoryController {
 
 	@RequestMapping(value = "/iventario/nuevo", method = RequestMethod.POST)
 	public String crear(@Valid Product product, BindingResult result) {
-
-		this.logger.trace("Creando producto");
 		// Si hay errores volver pagina priceincrease.jsp
 		if (result.hasErrors()) {
 			this.logger.warn("Parametros no validos");
 			return "product/form";
 		}
-		// atributos == modelo
 		final Map<String, Object> model = new HashMap<String, Object>();
-		model.put("product", this.productManager.insertar(product));
-		this.logger.trace("producto creado");
+
+		if (product.getId() == 0) {
+			this.logger.trace("Creando producto");
+			model.put("product", this.productManager.insertar(product));
+			this.logger.trace("producto creado");
+		} else {
+			this.logger.trace("Modificando producto");
+			model.put("product", this.productManager.modificar(product));
+			this.logger.trace("producto modificado");
+		}
 
 		return "redirect:/product/inventario";
 	}
