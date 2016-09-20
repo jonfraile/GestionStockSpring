@@ -44,7 +44,7 @@ public class PriceIncreaseFormController {
 
 		this.productManager.increasePrice(increase);
 
-		return "redirect:/inventario";
+		return "redirect:/product/inventario";
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

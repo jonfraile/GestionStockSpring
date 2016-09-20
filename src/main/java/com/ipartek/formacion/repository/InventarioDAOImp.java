@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,7 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.SqlInOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.object.GenericStoredProcedure;
+import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -37,9 +43,20 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	@Override
 	public void increasePrice(int percentage) {
-		final String sql = "{ incrementar_precio(?) }";
-		this.jdbctemplate.update(sql, new Object[] { percentage });
+		StoredProcedure procedure = new GenericStoredProcedure();
+        procedure.setDataSource(dataSource);
+        procedure.setSql("incrementar_precio");
+        procedure.setFunction(false);
 
+        SqlParameter[] parameters = {
+                new SqlParameter(Types.BIGINT),
+        };
+
+        procedure.setParameters(parameters);
+        procedure.compile();
+
+        Map<String, Object> result = procedure.execute(percentage);
+        logger.info("Productos incrementados OK " + result);
 	}
 
 	@Override
