@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.object.GenericStoredProcedure;
-import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -34,6 +32,7 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	@Autowired
 	private DataSource dataSource;
+
 	private JdbcTemplate jdbctemplate;
 	private SimpleJdbcCall jdbcCall;
 
@@ -41,16 +40,23 @@ public class InventarioDAOImp implements InventarioDAO {
 
 	@Override
 	public void increasePrice(int percentage) {
-		StoredProcedure procedure = new GenericStoredProcedure();
-		procedure.setDataSource(dataSource);
-		procedure.setSql("incrementar_precio");
-		procedure.setFunction(false);
+		/*
+		 * insertAlumno --> Nombre del procedimiento almacenado
+		 */
+		this.jdbcCall.withProcedureName("incrementar_precio");
+		/*
+		 * SqlParameterSource (tipo Map) guarda los paramentros necesarios para
+		 * el procedimiento
+		 */
+		final SqlParameterSource parameterIn = new MapSqlParameterSource().addValue("porcentaje", percentage);
 
-		SqlParameter[] parameters = { new SqlParameter(Types.BIGINT), };
+		this.jdbcCall.execute(parameterIn);
+		/*
+		 * Recogemos el parametro OUT del procedimiento
+		 */
 
-		procedure.setParameters(parameters);
-		procedure.compile();
-		procedure.execute(percentage);
+		logger.info("Incrementado todos los precios");
+
 	}
 
 	@Override
@@ -144,7 +150,35 @@ public class InventarioDAOImp implements InventarioDAO {
 	@Autowired
 	@Override
 	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 		this.jdbctemplate = new JdbcTemplate(dataSource);
 		this.jdbcCall = new SimpleJdbcCall(dataSource);
 	}
 }
+/*
+ * @Override public Alumno create(Alumno alumno) {
+ * 
+ * /* insertAlumno --> Nombre del procedimiento almacenado
+ */
+// jdbcCall.withProcedureName("insertAlumno");
+/*
+ * SqlParameterSource (tipo Map) guarda los paramentros necesarios para el
+ * procedimiento
+ */
+// SqlParameterSource in = new MapSqlParameterSource()
+// .addValue("nombre", alumno.getNombre())
+// .addValue("apellidos", alumno.getApellido())
+// .addValue("dni", "s").addValue("fecha", new
+// Date(alumno.getfNacimiento().getTime()))
+// .addValue("email",alumno.getEmail()).addValue("telefono", "1")
+// .addValue("codGenero", 1);
+
+// Map<String, Object> out = jdbcCall.execute(in);
+/*
+ * Recogemos el parametro OUT del procedimiento
+ */
+
+// alumno.setCodigo((Integer) out.get("codalumno"));
+// return alumno;
+
+// }

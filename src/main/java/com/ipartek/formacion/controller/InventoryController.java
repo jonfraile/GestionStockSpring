@@ -30,17 +30,17 @@ public class InventoryController {
 	private ProductManager productManager;
 
 	/**
-	 * Mostrar listado de todos los productos del inventario
+	 * Mostrar listado de todos lo productos del inventario
 	 *
 	 * @param request
 	 * @param response
-	 * @return ModelAndView "inventario.jsp", model:{ArrayList &lt;Product&gt;
-	 *         "product",String "fecha"}
+	 * @return ModelAndView view: "inventario.jsp", model: { ArrayList
+	 *         &lt;Product&gt; "products" , String "fecha" }
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/product/inventario", method = RequestMethod.GET)
-	public ModelAndView listarInventario() {
+	@RequestMapping(value = "/inventario", method = RequestMethod.GET)
+	public ModelAndView listarInventario() throws ServletException, IOException {
 
 		this.logger.info("procesando peticion");
 
@@ -50,84 +50,72 @@ public class InventoryController {
 		model.put("fecha", new Date().toString());
 
 		return new ModelAndView("product/inventario", model);
-
 	}
 
 	/**
-	 * Muestra formulario para crear nuevo producto
+	 * Muestra formulario para crear nuevo Producto
 	 *
-	 * @param request
-	 * @param response
 	 * @return
-	 * @throws ServletException
-	 * @throws IOException
 	 */
-	@RequestMapping(value = "/iventario/nuevo", method = RequestMethod.GET)
+	@RequestMapping(value = "/inventario/nuevo", method = RequestMethod.GET)
 	public ModelAndView mostrarFormulario() {
-
 		this.logger.trace("Mostrar formulario crear nuevo producto");
 
-		// atributos == modelo
 		final Map<String, Object> model = new HashMap<String, Object>();
 		model.put("product", new Product());
-
+		model.put("isNew", true);
 		return new ModelAndView("product/form", model);
-
 	}
 
-	@RequestMapping(value = "/iventario/nuevo", method = RequestMethod.POST)
-	public String crear(@Valid Product product, BindingResult result) {
-		// Si hay errores volver pagina priceincrease.jsp
-		if (result.hasErrors()) {
-			this.logger.warn("Parametros no validos");
-			return "product/form";
-		}
-		final Map<String, Object> model = new HashMap<String, Object>();
+	@RequestMapping(value = "/inventario/save", method = RequestMethod.POST)
+	public ModelAndView salvar(@Valid Product product, BindingResult bindingResult) {
+		this.logger.trace("Salvando producto....");
 
-		if (product.getId() == 0) {
-			this.logger.trace("Creando producto");
-			model.put("product", this.productManager.insertar(product));
-			this.logger.trace("producto creado");
+		if (bindingResult.hasErrors()) {
+			this.logger.warn("parametros no validos");
+			final Map<String, Object> model = new HashMap<String, Object>();
+			model.put("product", product);
+			return new ModelAndView("product/form", model);
 		} else {
-			this.logger.trace("Modificando producto");
-			model.put("product", this.productManager.modificar(product));
-			this.logger.trace("producto modificado");
+
+			if (product.isNew()) {
+				this.productManager.insertar(product);
+			} else {
+				this.productManager.modificar(product);
+			}
+			final Map<String, Object> model = new HashMap<String, Object>();
+			model.put("product", product);
+			return new ModelAndView("product/form", model);
 		}
 
-		return "redirect:/product/inventario";
 	}
 
 	@RequestMapping(value = "/inventario/detalle/{id}", method = RequestMethod.GET)
 	public ModelAndView verDetalle(@PathVariable(value = "id") final long id) {
-
-		this.logger.trace("Detalle producto " + id);
+		this.logger.trace("Mostrando detalle producto[" + id + "]....");
 
 		final Map<String, Object> model = new HashMap<String, Object>();
-
 		model.put("product", this.productManager.getById(id));
-
+		model.put("isNew", false);
 		return new ModelAndView("product/form", model);
 	}
 
 	@RequestMapping(value = "/inventario/eliminar/{id}", method = RequestMethod.GET)
-	public String eliminar(@PathVariable(value = "id") final long id) {
+	public ModelAndView eliminar(@PathVariable(value = "id") final long id) throws ServletException, IOException {
+		this.logger.trace("Eliminando producto[" + id + "]....");
 
-		this.logger.trace("Eliminado" + id);
-
-		final Map<String, Object> model = new HashMap<String, Object>();
-		String msg = "No se ha podido eliminar";
-
+		String msg = "No eliminado producto[" + id + "]";
 		if (this.productManager.eliminar(id)) {
-			msg = "producto " + id + " eliminado";
+			msg = "producto[" + id + "] eliminado";
 			this.logger.info(msg);
-
 		} else {
 			this.logger.warn(msg);
 		}
 
+		final Map<String, Object> model = new HashMap<String, Object>();
 		model.put("msg", msg);
 
-		return "redirect:/product/inventario";
+		return new ModelAndView("product/inventario", model);
 	}
 
 }

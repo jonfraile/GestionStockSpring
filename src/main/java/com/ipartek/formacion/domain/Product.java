@@ -64,6 +64,16 @@ public class Product implements Serializable {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
+
+	public boolean isNew() {
+		return (this.id == 0) ? true : false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Product [id=" + this.id + ", description=" + this.description + ", price=" + this.price + "]";
